@@ -10,29 +10,29 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ## Commands for ETL (Extract, Transform & Load) process
-### Check if postgresql server is running locally
+#### Check if postgresql server is running locally
 brew services
 
-Start the postgresql server if it isn't already running
+#### Start the postgresql server if it isn't already running
 brew services restart postgresql@15
 
-Stop postgresql server
+#### Stop postgresql server
 brew services stop postgresql
 
-Opens postgres in terminal with user 'sdc'
+#### Opens postgres in terminal with user 'sdc'
 psql postgres -U sdc
 
-Stops postgres in terminal
+#### Stops postgres in terminal
 \q
 
-Switch to db of choice
+#### Switch to db of choice
 \c sdc_reviews
 
-Show tables in db
+#### Show tables in db
 \dt
 
-Run from setup_tables.sql directory to clean data base and create tables
+#### Run from setup_tables.sql directory to clean data base and create tables
 psql -U sdc -d sdc_reviews -a -f setup_tables.sql
 
-Run from load_tables.sql directory to load csv data into data base tables
+#### Run from load_tables.sql directory to load csv data into data base tables
 psql -U sdc -d sdc_reviews -a -f load_tables.sql
