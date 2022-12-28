@@ -9,8 +9,8 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 ![Express](https://img.shields.io/badge/-Express-DCDCDC?logo=express&logoColor=black&style=for-the-badge)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
-# Commands for ETL (Extract, Transform & Load) process
-Check if postgresql server is running locally
+## Commands for ETL (Extract, Transform & Load) process
+### Check if postgresql server is running locally
 brew services
 
 Start the postgresql server if it isn't already running
