@@ -11,7 +11,7 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 
 ## Commands for ETL (Extract, Transform & Load) process
 #### Check if postgresql server is running locally
-  brew services
+> brew services
 
 #### Start the postgresql server if it isn't already running
   brew services restart postgresql@15
