@@ -48,3 +48,6 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 
 #### Run from load_tables.sql directory to load csv data into data base tables
 > psql -U sdc -d sdc_reviews -a -f load_tables.sql
+
+#### Check what index's are being used for a table
+> SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'tablename';
