@@ -4,10 +4,10 @@ DROP TABLE IF EXISTS public.characteristic_reviews;
 DROP TABLE IF EXISTS public.reviews;
 
 CREATE TABLE public.reviews (
-	id serial NOT NULL,
-	product_id varchar(255) NOT NULL,
-  rating varchar(255) NOT NULL,
-	date varchar(255) NOT NULL,
+	review_id serial NOT NULL,
+	product_id int NOT NULL,
+  rating int NOT NULL,
+	date bigint NOT NULL,
 	summary varchar(255) NOT NULL,
 	body text NOT NULL,
 	recommend boolean NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE public.reviews (
 	reviewer_email varchar(255) NOT NULL,
 	response varchar (255) NOT NULL,
 	helpfulness int NOT NULL,
-	CONSTRAINT reviews_pk PRIMARY KEY (id)
+	CONSTRAINT reviews_pk PRIMARY KEY (review_id)
 );
 
 CREATE TABLE public.photos (
@@ -24,7 +24,7 @@ CREATE TABLE public.photos (
 	review_id int NOT NULL,
 	url varchar(255) NOT NULL,
 	CONSTRAINT photos_pk PRIMARY KEY (id),
-	CONSTRAINT photos_fk FOREIGN KEY (review_id) REFERENCES public.reviews(id)
+	CONSTRAINT photos_fk FOREIGN KEY (review_id) REFERENCES public.reviews(review_id)
 );
 
 CREATE TABLE public.characteristics (
@@ -40,5 +40,5 @@ CREATE TABLE public.characteristic_reviews (
 	review_id int NOT NULL,
 	value int NOT NULL,
 	CONSTRAINT characteristic_reviews_pk PRIMARY KEY (id),
-	CONSTRAINT characteristic_reviews_fk FOREIGN KEY (review_id) REFERENCES public.reviews(id)
+	CONSTRAINT characteristic_reviews_fk FOREIGN KEY (review_id) REFERENCES public.reviews(review_id)
 );

@@ -19,6 +19,12 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 #### Stop postgresql server
 > brew services stop postgresql
 
+#### Set expanded view to auto (on, off are also options)
+> \x auto
+
+#### Turn on timing to benchmark queries in psql (terminal)
+> \timing
+
 #### Opens postgres in terminal with user 'sdc'
 > psql postgres -U sdc
 
@@ -30,6 +36,12 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 
 #### Show tables in db
 > \dt
+
+#### Describe a table with extra information
+> \d+ 'table name'
+
+#### Return number of rows in a table
+> SELECT count(*) FROM 'table name';
 
 #### Run from setup_tables.sql directory to clean data base and create tables
 > psql -U sdc -d sdc_reviews -a -f setup_tables.sql
