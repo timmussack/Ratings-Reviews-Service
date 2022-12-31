@@ -10,23 +10,25 @@ CREATE INDEX characteristic_reviews_index ON public.characteristic_reviews USING
 
 -- GET /reviews/
 -- ORDER BY can be date DESC, helpfulness DESC or relevance -> combonation is default
-EXPLAIN (ANALYZE, BUFFERS) SELECT
-  json_agg(reviewSearch)
-FROM
-  (SELECT reviews.review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date / 1000)::date AS date, reviews.reviewer_name, reviews.helpfulness, string_agg(photos.id::text, ', ') AS photo_ids, string_agg(photos.url::text, ', ') AS photo_urls FROM reviews LEFT JOIN photos ON reviews.review_id = photos.review_id WHERE reviews.product_id = 700 AND reviews.reported = false GROUP BY reviews.review_id ORDER BY reviews.helpfulness DESC, reviews.date DESC) AS reviewSearch;
+EXPLAIN (ANALYZE, BUFFERS)
 
-SELECT reviews.review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date / 1000)::date AS date, reviews.reviewer_name, reviews.helpfulness, string_agg(photos.id::text, ', ') AS photo_ids, string_agg(photos.url::text, ', ') AS photo_urls FROM reviews LEFT JOIN photos ON reviews.review_id = photos.review_id WHERE reviews.product_id = 2 AND reviews.reported = false GROUP BY reviews.review_id ORDER BY reviews.helpfulness DESC, reviews.date DESC;
-
-SELECT reviews.review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date / 1000)::date AS date, reviews.reviewer_name, reviews.helpfulness FROM reviews WHERE reviews.product_id = 2 AND reviews.reported = false GROUP BY reviews.review_id ORDER BY reviews.helpfulness DESC, reviews.date DESC;
-
-SELECT reviews.summary, string_agg(photos.id::text, photos.url::text, ', ') AS photos FROM reviews LEFT JOIN photos ON reviews.review_id = photos.review_id WHERE reviews.product_id = 2 GROUP BY reviews.review_id;
+SELECT reviews.review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date / 1000)::date AS date, reviews.reviewer_name, reviews.helpfulness, json_agg(json_build_object('id', photos.id, 'url', photos.url)) AS photos FROM reviews LEFT JOIN photos ON reviews.review_id = photos.review_id WHERE reviews.product_id = 2 AND reviews.reported = false GROUP BY reviews.review_id ORDER BY reviews.helpfulness DESC, reviews.date DESC;
 
 -- GET /reviews/meta
 -- Adds up values in rating column
 SELECT
   json_agg(metaRatings)
 FROM
-  (SELECT rating, count(*) FROM reviews WHERE product_id = 4200 GROUP BY rating) AS metaRatings;
+  (SELECT rating, count(*) FROM reviews WHERE product_id = 5 AND rating = 3 GROUP BY rating) AS metaRatings;
+
+SELECT json_build_object('number', rating) FROM reviews WHERE product_id = 5 GROUP BY rating;
+
+SELECT json_agg(test)
+FROM (
+SELECT json_build_object('1', count(rating)) AS rating FROM reviews WHERE product_id = 5 AND rating = 1 UNION ALL SELECT json_build_object('2', count(rating)) FROM reviews WHERE product_id = 5 AND rating = 2 UNION ALL SELECT json_build_object('3', count(rating)) FROM reviews WHERE product_id = 5 AND rating = 3 UNION ALL SELECT json_build_object('4', count(rating)) FROM reviews WHERE product_id = 5 AND rating = 4 UNION ALL SELECT json_build_object('5', count(rating)) FROM reviews WHERE product_id = 5 AND rating = 5
+) AS test;
+
+SELECT count(*) AS one FROM reviews WHERE product_id = 5 AND rating = 1 UNION ALL SELECT count(*) AS two FROM reviews WHERE product_id = 5 AND rating = 2 UNION ALL SELECT count(*) AS three FROM reviews WHERE product_id = 5 AND rating = 3;
 
 -- Alternate query, not sure if I'll use
 SELECT json_agg(rating) FROM reviews WHERE product_id = 4200;
