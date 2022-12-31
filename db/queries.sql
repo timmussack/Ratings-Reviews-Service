@@ -15,49 +15,42 @@ EXPLAIN (ANALYZE, BUFFERS)
 SELECT reviews.review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date / 1000)::date AS date, reviews.reviewer_name, reviews.helpfulness, json_agg(json_build_object('id', photos.id, 'url', photos.url)) AS photos FROM reviews LEFT JOIN photos ON reviews.review_id = photos.review_id WHERE reviews.product_id = 2 AND reviews.reported = false GROUP BY reviews.review_id ORDER BY reviews.helpfulness DESC, reviews.date DESC;
 
 -- GET /reviews/meta
--- Adds up values in rating column
-SELECT
-  json_agg(metaRatings)
-FROM
-  (SELECT rating, count(*) FROM reviews WHERE product_id = 5 AND rating = 3 GROUP BY rating) AS metaRatings;
-
-SELECT json_build_object('number', rating) FROM reviews WHERE product_id = 5 GROUP BY rating;
-
-SELECT json_agg(test)
-FROM (
-SELECT json_build_object('1', count(rating)) AS rating FROM reviews WHERE product_id = 5 AND rating = 1 UNION ALL SELECT json_build_object('2', count(rating)) FROM reviews WHERE product_id = 5 AND rating = 2 UNION ALL SELECT json_build_object('3', count(rating)) FROM reviews WHERE product_id = 5 AND rating = 3 UNION ALL SELECT json_build_object('4', count(rating)) FROM reviews WHERE product_id = 5 AND rating = 4 UNION ALL SELECT json_build_object('5', count(rating)) FROM reviews WHERE product_id = 5 AND rating = 5
-) AS test;
-
-SELECT count(*) AS one FROM reviews WHERE product_id = 5 AND rating = 1 UNION ALL SELECT count(*) AS two FROM reviews WHERE product_id = 5 AND rating = 2 UNION ALL SELECT count(*) AS three FROM reviews WHERE product_id = 5 AND rating = 3;
-
--- Alternate query, not sure if I'll use
-SELECT json_agg(rating) FROM reviews WHERE product_id = 4200;
-
--- Adds up true/false in recommend column
-SELECT
-  json_agg(metaRecommend)
-FROM
-  (SELECT count(nullif(recommend, false)) AS false, count(nullif(recommend, true)) AS true FROM reviews WHERE reviews.product_id = 4200) AS metaRecommend;
-
--- Alternate query, not sure if I'll use
-SELECT json_agg(recommend) FROM reviews WHERE product_id = 4200;
-
--- Provides characteristic ratings for product
-SELECT
- json_agg(metaCharacteristics)
-FROM
-  (SELECT characteristics.name, characteristics.id, SUM(characteristic_reviews.value) / COUNT(*)::decimal AS value FROM characteristics LEFT JOIN characteristic_reviews ON characteristics.id = characteristic_reviews.characteristics_id WHERE characteristics.product_id = 3800 GROUP BY characteristics.id) AS metaCharacteristics;
+SELECT json_build_object(
+'product_id', (SELECT product_id FROM characteristics WHERE product_id = 20 LIMIT 1),
+'ratings', (
+  WITH ratings AS (select rating, count(rating)
+  FROM reviews WHERE product_id = 20
+  GROUP BY rating
+  ORDER BY rating ASC
+  )
+  SELECT json_object_agg(rating, count) FROM ratings),
+  'recommended', (
+    SELECT json_build_object(
+    false, (SELECT count(reviews.recommend) FROM reviews WHERE product_id = 20 AND recommend = false),
+    true, (SELECT count(reviews.recommend) FROM reviews WHERE product_id = 20 AND recommend = true)
+      )
+    ),
+  'characteristics', (
+    WITH chars AS (SELECT characteristics.name AS name, characteristics.id AS id, SUM(characteristic_reviews.value) / COUNT(*)::decimal AS value FROM characteristics LEFT JOIN characteristic_reviews ON characteristics.id = characteristic_reviews.characteristics_id WHERE characteristics.product_id = 20 GROUP BY characteristics.id) SELECT json_object_agg(name, (json_build_object('id', id, 'value', value))) FROM chars
+  )
+) AS metaData;
 
 -- POST /reviews
 INSERT INTO
-  reviews(id, product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness)
+  reviews(review_id, product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness)
 VALUES
   (${id}, ${product_id}, ${rating}, now(), ${summary}, ${body}, ${recommend}, false, ${name}, ${email}, 'null', 0);
+
+INSERT INTO
+  reviews(review_id, product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness)
+VALUES
+  (5774953, 1, 4, 1111111111111, 'This is a test summary 12345', 'This is a test body', true, false, 'TestName', 'TestEmail', 'null', 0)
+RETURNING review_id;
 
 -- SELECT statement to get inserted review_id
 SELECT MAX(review_id) FROM reviews;
 
-INSERT INTO --Only saves 1 URL, will have to loop if multiple URLs
+INSERT INTO
   photos(id, review_id, url)
 VALUES
   (${id}, ${review_id}, ${photos}) --review_id comes from id generated above
@@ -73,7 +66,8 @@ UPDATE
 SET
   helpfulness = helpfulness + 1
 WHERE
-  review_id = ${review_id};
+  review_id = ${review_id
+RETURNING helpfulness;
 
 -- PUT /reviews/:review_id/report
 UPDATE
@@ -81,4 +75,5 @@ UPDATE
 SET
   reported = true
 WHERE
-  review_id = ${review_id};
+  review_id = ${review_id}
+RETURNING reported;
