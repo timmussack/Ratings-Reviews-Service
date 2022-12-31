@@ -109,7 +109,7 @@ const postReview = (async (req, res) => {
   let reviewDate = Date.now();
 
   try {
-      //Get the max review_id from db
+      //Get next review id
       const client1 = await db.query(nextReviewId);
       let next_review_id = client1.rows[0]['max'] + 1;
 
@@ -117,16 +117,22 @@ const postReview = (async (req, res) => {
       let valuesInsertReview = [next_review_id, product_id, rating, reviewDate, summary, body, recommend, false, name, email, 'null', 0];
       const client2 = await db.query(insertReview, valuesInsertReview);
 
-      //Insert photo urls into photo table
-      const client3 = await db.query(nextPhotoId)
-      let next_photo_id = client3.rows[0]['max'] + 1;
-      forEach.photos()
-      // let textInsertPhoto = insertPhoto;
-      // let valuesInsertPhoto = []
-
+      //Check if review has any photo urls to save
+      if (photos.length > 0) {
+        //Get last photo id
+        const client3 = await db.query(nextPhotoId)
+        let last_photo_id = client3.rows[0]['max'];
+        //Insert photo urls into photo table
+        photos.forEach(async (photo) => {
+        last_photo_id++;
+        let valuesInsertPhoto = [last_photo_id, next_review_id, photo]
+        let client4 = await db.query(insertPhoto, valuesInsertPhoto)
+        console.log(client4.rows[0])
+        })
+      }
 
       //return res.status(200).send(rows[0]['metadata']);
-      console.log(client2.rows, next_review_id, next_photo_id)
+      //console.log(client2.rows, next_review_id, next_photo_id)
   } catch (err) {
       //return res.send({ error: err });
       console.log(err.stack, 'Error in getMeta controller function.')

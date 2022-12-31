@@ -65,7 +65,8 @@ let nextPhotoId = `SELECT MAX(id) FROM photos;`
 let insertPhoto = `INSERT INTO
 photos(id, review_id, url)
 VALUES
-($1, $2, $3);`
+($1, $2, $3)
+RETURNING url;`
 
 exports.reviews = reviews;
 exports.meta = meta;
