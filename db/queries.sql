@@ -13,7 +13,13 @@ CREATE INDEX characteristic_reviews_index ON public.characteristic_reviews USING
 EXPLAIN (ANALYZE, BUFFERS) SELECT
   json_agg(reviewSearch)
 FROM
-  (SELECT reviews.review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date / 1000)::date AS date, reviews.reviewer_name, reviews.helpfulness, string_agg(photos.id::text, ', ') AS photo_ids, string_agg(photos.url::text, ', ') AS photo_urls FROM reviews LEFT JOIN photos ON reviews.review_id = photos.review_id WHERE reviews.product_id = 3800 GROUP BY reviews.review_id ORDER BY reviews.helpfulness DESC, reviews.date DESC) AS reviewSearch;
+  (SELECT reviews.review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date / 1000)::date AS date, reviews.reviewer_name, reviews.helpfulness, string_agg(photos.id::text, ', ') AS photo_ids, string_agg(photos.url::text, ', ') AS photo_urls FROM reviews LEFT JOIN photos ON reviews.review_id = photos.review_id WHERE reviews.product_id = 700 AND reviews.reported = false GROUP BY reviews.review_id ORDER BY reviews.helpfulness DESC, reviews.date DESC) AS reviewSearch;
+
+SELECT reviews.review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date / 1000)::date AS date, reviews.reviewer_name, reviews.helpfulness, string_agg(photos.id::text, ', ') AS photo_ids, string_agg(photos.url::text, ', ') AS photo_urls FROM reviews LEFT JOIN photos ON reviews.review_id = photos.review_id WHERE reviews.product_id = 2 AND reviews.reported = false GROUP BY reviews.review_id ORDER BY reviews.helpfulness DESC, reviews.date DESC;
+
+SELECT reviews.review_id, reviews.rating, reviews.summary, reviews.recommend, reviews.response, reviews.body, to_timestamp(reviews.date / 1000)::date AS date, reviews.reviewer_name, reviews.helpfulness FROM reviews WHERE reviews.product_id = 2 AND reviews.reported = false GROUP BY reviews.review_id ORDER BY reviews.helpfulness DESC, reviews.date DESC;
+
+SELECT reviews.summary, string_agg(photos.id::text, photos.url::text, ', ') AS photos FROM reviews LEFT JOIN photos ON reviews.review_id = photos.review_id WHERE reviews.product_id = 2 GROUP BY reviews.review_id;
 
 -- GET /reviews/meta
 -- Adds up values in rating column
