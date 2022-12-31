@@ -141,3 +141,8 @@ const postReview = (async (req, res) => {
   }
 })();
 
+exports.getReviews = getReviews;
+exports.getMeta = getMeta;
+exports.putHelpful = putHelpful;
+exports.putReport = putReport;
+exports.postReview = postReview;

@@ -3,6 +3,7 @@ const path = require('path');
 const axios = require('axios');
 const compression = require('compression');
 require('dotenv').config();
+const { getReviews, getMeta, putHelpful, putReport, postReview } = require('../db/controllers.js');
 
 const app = express();
 app.use(compression({level: 9}));
