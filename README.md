@@ -25,8 +25,10 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 #### Turn on timing to benchmark queries in psql (terminal)
 > \timing
 
-#### Opens postgres in terminal with user 'sdc'
-> psql postgres -U sdc
+#### Opens postgres in terminal with user 'sdc',
+> psql postgres -U sdc ...local machine
+> sudo -u postgres psql ...on EC2, this is the default user after install
+> psql -U sdc sdc_reviews ...then provide password
 
 #### Stops postgres in terminal
 > \q
@@ -49,5 +51,18 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 #### Run from load_tables.sql directory to load csv data into data base tables
 > psql -U sdc -d sdc_reviews -a -f load_tables.sql
 
+#### Run from create_indexes.sql directory to create the needed indexes
+> psql -U sdc -d sdc_reviews -a -f create_indexes.sql
+
 #### Check what index's are being used for a table
 > SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'tablename';
+
+#### Fix id sequences in table primary keys
+> psql -U sdc -d sdc_reviews -a -f fix_sequences.sql;
+
+> pg_dump -U darrien -f qa.pgsql -C questiontest
+> pg_dump -U sdc -f review.pgsql -C sdc_reviews
+
+> scp -i ~/downloads/sdc.pem qa.pgsql ubuntu@18.219.169.32:/home/ubuntu
+> scp -i ~/AWS\ Deployments/sdc_db.pem review.pgsql ubuntu@44.207.6.108:/home/ubuntu
+> scp -i ~/Desktop/AWS\ Deployments/sdc_db.pem review.pgsql ubuntu@44.207.6.108:/home/ubuntu
