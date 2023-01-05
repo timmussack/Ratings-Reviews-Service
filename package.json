@@ -2,7 +2,7 @@
   "name": "ratings-reviews-service",
   "version": "1.0.0",
   "description": "back-end service for a ratings & reviews e-commerce front-end",
-  "main": "mongoETLTest.js",
+  "main": "./server/index.js",
   "scripts": {
     "server-dev": "npx nodemon --watch Server ./Server/index.js",
     "server-pm2": "pm2 start ./server/index.js -i 2 --watch",
