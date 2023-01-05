@@ -1,4 +1,4 @@
-const { reviews, meta, helpful, report, nextReviewId, insertReview, nextPhotoId, insertPhoto } = require('./queries.js');
+const { reviews, meta, helpful, report, insertReview, insertPhoto, insertChars } = require('./queries.js');
 const db = require('./index.js');
 
 const testObj = {
@@ -27,7 +27,9 @@ const testReviewObj = {
 };
 
 const getReviews = async (req, res) => {
-  let { page, count, sort, product_id } = testObj; //req.query
+  //let { page, count, sort, product_id } = testObj;
+  let { page, count, sort, product_id } = req.query;
+
   page = page ? page : 0;
   count = count ? count : 5;
   let order = sort === 'newest' ? 'reviews.helpfulness DESC' : sort === 'helpful' ? 'reviews.date DESC' : 'reviews.helpfulness DESC, reviews.date DESC'
@@ -43,103 +45,115 @@ const getReviews = async (req, res) => {
         'count': count,
         'results': rows
       };
-      //return res.status(200).send(data);
-      console.log(JSON.stringify(data));
+      return res.status(200).json(data);
+      //console.log(JSON.stringify(data));
   } catch (err) {
-      //return res.send({ error: err });
       console.log(err.stack, 'Error in getReviews controller function.')
+      return res.status(408).end();
   } finally {
-    //client.release()
+
   }
 };
 
 const getMeta = async (req, res) => {
-  let { product_id } = testObj; //req.query
+  //let { product_id } = testObj;
+  let { product_id } = req.query;
+
   let text = meta;
   let values = [product_id, product_id, product_id, product_id, product_id];
 
   try {
       const { rows } = await db.query(text, values);
-      //return res.status(200).send(rows[0]['metadata']);
-      console.log(rows[0]['metadata'])
+      return res.status(200).json(rows[0]['metadata']);
+      //console.log(rows[0]['metadata'])
   } catch (err) {
-      //return res.send({ error: err });
+      return res.status(408).end();
       console.log(err.stack, 'Error in getMeta controller function.')
   } finally {
-    //client.release()
+
   }
 };
 
 const putHelpful = async (req, res) => {
-  let { review_id } = testObj; //req.params
+  //let { review_id } = testObj;
+  let { review_id } = req.params
+
   let text = helpful;
   let values = [review_id];
 
   try {
       const { rows } = await db.query(text, values);
-      //return res.status(200).send(rows[0]['metadata']);
-      console.log(JSON.stringify(rows))
+      return res.status(204).end('No Content');
+      //console.log(JSON.stringify(rows))
   } catch (err) {
-      //return res.send({ error: err });
+      return res.status(408).end();
       console.log(err.stack, 'Error in getMeta controller function.')
   } finally {
-    //client.release()
+
   }
 };
 
 const putReport = async (req, res) => {
-  let { review_id } = testObj; //req.params
+  //let { review_id } = testObj;
+  let { review_id } = req.params;
+
   let text = report;
   let values = [review_id];
 
   try {
       const { rows } = await db.query(text, values);
-      //return res.status(200).send(rows[0]['metadata']);
-      console.log(JSON.stringify(rows))
+      return res.status(204).end('No Content');
+      //console.log(JSON.stringify(rows))
   } catch (err) {
-      //return res.send({ error: err });
+      return res.status(408).end();
       console.log(err.stack, 'Error in getMeta controller function.')
   } finally {
-    //client.release()
+
   }
 };
 
-const postReview = (async (req, res) => {
-  let { product_id, body, rating, recommend, name, summary, email, photos, characteristics } = testReviewObj //req.body;
+//Transactional Review Insert
+const postReview = async (req, res) => {
+  //console.log('Body', req.body);
+  //let { product_id, body, rating, recommend, name, summary, email, photos, characteristics } = testReviewObj;
+  let { product_id, body, rating, recommend, name, summary, email, photos, characteristics } = req.body;
+
   let reviewDate = Date.now();
 
+  const client = await db.getClient();
+
   try {
-      //Get next review id
-      const client1 = await db.query(nextReviewId);
-      let next_review_id = client1.rows[0]['max'] + 1;
+    await client.query('BEGIN')
+    //Insert the review into review table
+    let valuesInsertReview = [product_id, rating, reviewDate, summary, body, recommend, false, name, email, 'null', 0];
+    const res_review = await client.query(insertReview, valuesInsertReview);
+    //console.log("Review Id", res_review.rows[0]['review_id']);
+     //Check if review has any photo urls to save
+     if (photos.length > 0) {
+      //Insert photo urls into photo table
+      photos.forEach(async (photo) => {
+      let valuesInsertPhoto = [res_review.rows[0]['review_id'], photo];
+      let res_photo = await client.query(insertPhoto, valuesInsertPhoto);
+      //console.log("Photo Id", res_photo.rows[0]['id']);
+      });
+    };
 
-      //Insert the review into review table
-      let valuesInsertReview = [next_review_id, product_id, rating, reviewDate, summary, body, recommend, false, name, email, 'null', 0];
-      const client2 = await db.query(insertReview, valuesInsertReview);
+    //Insert chars into characteristic_reviews table
+    Object.keys(characteristics).forEach(async (key) => {
+      let valuesInsertChars = [key, res_review.rows[0]['review_id'], characteristics[key]];
+      let res_char = await client.query(insertChars, valuesInsertChars);
+      //console.log("Char Id", res_char.rows[0]['id'])
+      })
 
-      //Check if review has any photo urls to save
-      if (photos.length > 0) {
-        //Get last photo id
-        const client3 = await db.query(nextPhotoId)
-        let last_photo_id = client3.rows[0]['max'];
-        //Insert photo urls into photo table
-        photos.forEach(async (photo) => {
-        last_photo_id++;
-        let valuesInsertPhoto = [last_photo_id, next_review_id, photo]
-        let client4 = await db.query(insertPhoto, valuesInsertPhoto)
-        console.log(client4.rows[0])
-        })
-      }
-
-      //return res.status(200).send(rows[0]['metadata']);
-      //console.log(client2.rows, next_review_id, next_photo_id)
-  } catch (err) {
-      //return res.send({ error: err });
-      console.log(err.stack, 'Error in getMeta controller function.')
+    await client.query('COMMIT');
+    return res.status(201).end('Created');
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e
   } finally {
-    //client.release()
+    client.release();
   }
-})();
+};
 
 exports.getReviews = getReviews;
 exports.getMeta = getMeta;

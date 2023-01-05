@@ -53,26 +53,31 @@ SET reported = true
 WHERE review_id = $1
 RETURNING reported;`
 
-let nextReviewId = `SELECT MAX(review_id) FROM reviews;`
-
+// Removed review_id, and $12
 let insertReview = `INSERT INTO
-reviews(review_id, product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness)
+reviews(product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness)
 VALUES
-($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);`
+($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+RETURNING review_id;`
 
-let nextPhotoId = `SELECT MAX(id) FROM photos;`
-
+// Removed id, and $3
 let insertPhoto = `INSERT INTO
-photos(id, review_id, url)
+photos(review_id, url)
+VALUES
+($1, $2)
+RETURNING id;`
+
+// Removed id, and $4
+let insertChars = `INSERT INTO
+characteristic_reviews(characteristics_id, review_id, value)
 VALUES
 ($1, $2, $3)
-RETURNING url;`
+RETURNING id;`
 
 exports.reviews = reviews;
 exports.meta = meta;
 exports.helpful = helpful;
 exports.report = report;
-exports.nextReviewId = nextReviewId;
 exports.insertReview = insertReview;
-exports.nextPhotoId = nextPhotoId;
 exports.insertPhoto = insertPhoto;
+exports.insertChars = insertChars;

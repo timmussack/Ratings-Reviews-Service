@@ -5,7 +5,7 @@ require('dotenv').config();
 const { getReviews, getMeta, putHelpful, putReport, postReview } = require('../db/controllers.js');
 const app = express();
 
-app.use(compression({level: 9}));
+app.use(compression({level: 5}));
 //app.use(express.urlencoded({ extended: true }));
 //app.use(express.static(path.join(__dirname, '../Client/dist')));
 app.use(express.json());
