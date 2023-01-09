@@ -1,7 +1,7 @@
 const { reviews, meta, helpful, report, insertReview, insertPhoto, insertChars } = require('./queries.js');
-//const { query } = require('./index.js');
 const db = require('./index.js');
 
+//Test objects can be used to test controllers locally
 const testObj = {
   page: 1,
   count: 2,
@@ -27,17 +27,10 @@ const testReviewObj = {
   }
 };
 
-<<<<<<< HEAD
-const getReviews = (async (req, res) => {
-  let { page, count, sort, product_id } = testObj;
-  //let { page, count, sort, product_id } = req.query;
-
-=======
 const getReviews = async (req, res) => {
   //let { page, count, sort, product_id } = testObj;
   let { page, count, sort, product_id } = req.query;
-  console.log('Getting reviews for ', product_id);
->>>>>>> cd1e96ca05814428046fbcb2507c9f3c6f43fabb
+
   page = page ? page : 0;
   count = count ? count : 5;
   let order = sort === 'newest' ? 'reviews.helpfulness DESC' : sort === 'helpful' ? 'reviews.date DESC' : 'reviews.helpfulness DESC, reviews.date DESC'
@@ -55,15 +48,15 @@ const getReviews = async (req, res) => {
         'count': count,
         'results': rows
       };
-      //return res.status(200).json(data);
-      console.log(JSON.stringify(data));
+      return res.status(200).json(data);
+      //console.log(JSON.stringify(data));
   } catch (err) {
       console.log(err.stack, 'Error in getReviews controller function.')
-      //return res.status(408).end();
+      return res.status(408).end();
   } finally {
     release();
   }
-})();
+};
 
 const getMeta = async (req, res) => {
   //let { product_id } = testObj;
