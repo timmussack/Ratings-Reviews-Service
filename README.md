@@ -5,7 +5,7 @@
 - This project was deployed to AWS, horizontally scaled using 6 free tier Ubuntu EC2 instances and 2 end points were tested with loader.io.
 
 ## Scaling Architecture
-<img src="Scaling Architecture.png" width=75% height=75%>
+<img src="Scaling Architecture.png" width=50% height=50%>
 
 ## Results of 15 second loader.io test
 - Post reviews achieved 1000 RPS with a 0% error rate and an average response time of 127 ms while sending a total of 5.6MB of data.
