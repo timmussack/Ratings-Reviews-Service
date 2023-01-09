@@ -1,17 +1,17 @@
 # Ratings & Reviews Backend Service
 
->The purpose of this project was to create a high performance backend API designed to provide an efficient way to manage the ratings & reviews feature of an e-commerce website.
+-The purpose of this project was to create a high performance backend API designed to provide an efficient way to manage the ratings & reviews feature of an e-commerce website.
 
-> This project was deployed to AWS, horizontally scaled using 6 free tier Ubuntu EC2 instances and 2 end points were tested with loader.io.
+-This project was deployed to AWS, horizontally scaled using 6 free tier Ubuntu EC2 instances and 2 end points were tested with loader.io.
 
 ## Scaling Architecture
 <img src="ScalingArchitecture.png">
 
-## Results of 15 second test
-> Post reviews achieved 1000 RPS with a 0% error rate and an average response time of 127 ms while sending a total of 5.6MB of data.
- - Before optimization & scaling this route had an average response time of 784 ms on the same test.
+> Results of 15 second test
+- Post reviews achieved 1000 RPS with a 0% error rate and an average response time of 127 ms while sending a total of 5.6MB of data.
+- Before optimization & scaling this route had an average response time of 784 ms on the same test.
 
-> Get reviews achieved 500 RPS with a 0% error rate and an average response time of 71 ms while receiving a total of 84MB of data.
+- Get reviews achieved 500 RPS with a 0% error rate and an average response time of 71 ms while receiving a total of 84MB of data.
  - Before optimization & scaling this route struggled on  100 RPS with an average response time of 1600 ms and an error rate of 4%.
 
 ## Optimizations Made
