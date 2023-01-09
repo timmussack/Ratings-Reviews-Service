@@ -1,8 +1,8 @@
 # Ratings & Reviews Backend Service
 
--The purpose of this project was to create a high performance backend API designed to provide an efficient way to manage the ratings & reviews feature of an e-commerce website.
+- The purpose of this project was to create a high performance backend API designed to provide an efficient way to manage the ratings & reviews feature of an e-commerce website.
 
--This project was deployed to AWS, horizontally scaled using 6 free tier Ubuntu EC2 instances and 2 end points were tested with loader.io.
+- This project was deployed to AWS, horizontally scaled using 6 free tier Ubuntu EC2 instances and 2 end points were tested with loader.io.
 
 ## Scaling Architecture
 <img src="ScalingArchitecture.png">
