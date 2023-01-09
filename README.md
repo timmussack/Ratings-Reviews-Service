@@ -4,7 +4,7 @@
 
 - This project was deployed to AWS, horizontally scaled using 6 free tier Ubuntu EC2 instances and 2 end points were tested with loader.io.
 
-## Technologies
+## Tech Stack
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Node](https://img.shields.io/badge/-Node-9ACD32?logo=node.js&logoColor=white&style=for-the-badge)
 ![Express](https://img.shields.io/badge/-Express-DCDCDC?logo=express&logoColor=black&style=for-the-badge)
