@@ -46,34 +46,34 @@
 > \timing
 
 #### Opens postgres in terminal with user 'sdc',
-> psql -U <user name> <data base name>
+> psql -U 'user name' 'data base name'
 
 #### Stops postgres in terminal
 > \q
 
 #### Switch to db of choice
-> \c <data base name>
+> \c data 'base name'
 
 #### Show tables in db
 > \dt
 
 #### Describe a table with extra information
-> \d+ table name
+> \d+ 'table name'
 
 #### Return number of rows in a table
-> SELECT count(*) FROM <table name>;
+> SELECT count(*) FROM 'table name';
 
 #### Run sql file scripts in build_db folder to set up data base
-> psql -U <user name> -d <data base name> -a -f <file name>.sql
+> psql -U 'user name' -d 'data base name' -a -f 'file name'.sql
 
 #### Check what index's a table has
-> SELECT indexname, indexdef FROM pg_indexes WHERE tablename = <table name>;
+> SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'table name';
 
 #### If primary key sequence falls out of synce run the fix_sequences script
-> psql -U <user name> -d <data base> -a -f fix_sequences.sql;
+> psql -U 'user name' -d 'data base' -a -f fix_sequences.sql;
 
 #### Create pgsql file of the data base to transfer data base to cloud server
-> pg_dump -U <user name> -f <name the file>.pgsql -C <data base name>
+> pg_dump -U 'user name' -f 'name the file'.pgsql -C 'data base name'
 
 #### Send the pgsql file to cloud server using scp
-> scp -i ~<path to pem key><pem key file name>.pem <pgsql file name>.pgsql <location of cloud server>
+> scp -i ~'path to pem key' 'pem key file name'.pem 'pgsql file name'.pgsql 'location of cloud server'
