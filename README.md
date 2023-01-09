@@ -9,7 +9,7 @@
 
 ## Results of 15 second loader.io test
 - Post reviews achieved 1000 RPS with a 0% error rate and an average response time of 127 ms while sending a total of 5.6MB of data.
-  - Before optimization & scaling this route had an average response time of 784 ms on the same test.
+  - Before optimization & scaling this route had an average response time of 784 ms on the same test. Once scaled Nginix optimizations had to be made to ensure enought worker connections were avaliable.
 
 - Get reviews achieved 500 RPS with a 0% error rate and an average response time of 71 ms while receiving a total of 84MB of data.
   - Before optimization & scaling this route struggled on  100 RPS with an average response time of 1600 ms and an error rate of 4%.
