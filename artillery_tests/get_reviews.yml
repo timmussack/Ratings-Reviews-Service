@@ -1,0 +1,21 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 20
+      arrivalRate: 100
+      name: Warm up
+    - duration: 10
+      arrivalRate: 100
+      name: Jog
+    - duration: 10
+      arrivalRate: 200
+      name: Run
+    - duration: 10
+      arrivalRate: 1000
+      name: Sprint
+
+scenarios:
+  - name: "Retrieve review data"
+    flow:
+      - get:
+          url: "/reviews?product_id={{$randomNumber(1, 500)}}&page=1&count=5"

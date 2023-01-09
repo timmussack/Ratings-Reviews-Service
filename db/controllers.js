@@ -1,4 +1,5 @@
 const { reviews, meta, helpful, report, insertReview, insertPhoto, insertChars } = require('./queries.js');
+//const { query } = require('./index.js');
 const db = require('./index.js');
 
 const testObj = {
@@ -26,9 +27,9 @@ const testReviewObj = {
   }
 };
 
-const getReviews = async (req, res) => {
-  //let { page, count, sort, product_id } = testObj;
-  let { page, count, sort, product_id } = req.query;
+const getReviews = (async (req, res) => {
+  let { page, count, sort, product_id } = testObj;
+  //let { page, count, sort, product_id } = req.query;
 
   page = page ? page : 0;
   count = count ? count : 5;
@@ -37,23 +38,25 @@ const getReviews = async (req, res) => {
   let text = reviews
   let values = [product_id, sort, count, page];
 
+  const client = await db.getClient();
+
   try {
-      const { rows } = await db.query(text, values);
+      const { rows } = await query(text, values);
       const data = {
         'product': product_id,
         'page': page,
         'count': count,
         'results': rows
       };
-      return res.status(200).json(data);
-      //console.log(JSON.stringify(data));
+      //return res.status(200).json(data);
+      console.log(JSON.stringify(data));
   } catch (err) {
       console.log(err.stack, 'Error in getReviews controller function.')
-      return res.status(408).end();
+      //return res.status(408).end();
   } finally {
-
+    release();
   }
-};
+})();
 
 const getMeta = async (req, res) => {
   //let { product_id } = testObj;

@@ -1,0 +1,50 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 10
+      arrivalRate: 1
+      name: Warm up
+    - duration: 10
+      arrivalRate: 100
+      rampTo: 200
+      name: Ramp up load
+    - duration: 20
+      arrivalRate: 500
+      name: Sustained load
+  variables:
+      product:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 100
+        - 200
+        - 300
+        - 1000
+        - 5567
+        - 10987
+        - 203499
+        - 2839495
+        - 2584738
+        - 1239242
+
+scenarios:
+  - name: "Post reviews"
+    flow:
+      - post:
+          url: "/reviews"
+          json:
+            product_id: '{{product}}'
+            body: 'This is a test body 12345'
+            rating: 4
+            recommend: true
+            name: 'testName'
+            summary: 'This is a test summary'
+            email: 'testEmail'
+            photos: ['url1', 'url2', 'url3']
+            characteristics: {
+              14: 5,
+              15: 5,
+              16: 4,
+              17: 2
+            }

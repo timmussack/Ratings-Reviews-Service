@@ -1,0 +1,24 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 10
+      arrivalRate: 100
+      name: 100 RPS
+    - duration: 10
+      arrivalRate: 400
+      name: 400 RPS
+    - duration: 10
+      arrivalRate: 600
+      name: 1000 RPS
+    - duration: 10
+      arrivalRate: 800
+      name: 1000 RPS
+    - duration: 10
+      arrivalRate: 1000
+      name: 1000 RPS
+
+scenarios:
+  - name: "Retrieve meta data"
+    flow:
+      - get:
+          url: "/reviews/meta?product_id={{$randomNumber(1, 500)}}"
