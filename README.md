@@ -2,7 +2,7 @@
 
 - The purpose of this project was to create a high performance backend API designed to provide an efficient way to manage the ratings & reviews feature of an e-commerce website.
 
-- This project was deployed to AWS, horizontally scaled using 6 free tier Ubuntu EC2 instances and 2 of 5 end points were tested with loader.io.
+- This project was deployed to AWS, horizontally scaled using 6 free tier Ubuntu EC2 instances. Two of five end points were tested with loader.io in order to comapre pre and post scaling performance.
 
 ## Tech Stack
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
@@ -23,12 +23,11 @@
   - Before scaling, this route would finish the same test with an average response time of 2209 ms with a .2% timeout   error rate.
 <img src="Final Get Reviews Demo SDC.gif" width=50% height=50%>
 
-## Optimizations Made
-- Used indexing to ensure data base queries were between 5-20 ms.
-- Scaled with multiple node.js servers and a Nginx load balancer.
-- Increased max connections allowed on data base from 100 to 200, prompted by data base error.
-- Increased the number of worker connections in Nginx, prompted by Nginx error logs.
-- Enabled keep alive connections in Nginx to minimize authentication hand shakes, prompted by Nginx blog post.
+## Other Optimizations 
+- Used indexing to ensure data base queries were between 5-20 ms. Pre-indexing, some queries took 5000 ms.
+- Increased max connections allowed on Postgres db from 100 to 200. This change was prompted by data base error during load testing.
+- Increased the number of worker connections in Nginx. This change was prompted by Nginx error logs during load testing.
+- Enabled and configured keep alive connections between Nginx and backend servers to minimize authentication hand shakes, this change was prompted by Nginx blog post.
 
 ## Helpful Postgres & ETL Commands
 
