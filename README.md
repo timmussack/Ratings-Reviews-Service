@@ -58,7 +58,7 @@
 > \dt
 
 #### Describe a table with extra information
-> \d+ <table name>
+> \d+ table name
 
 #### Return number of rows in a table
 > SELECT count(*) FROM <table name>;
