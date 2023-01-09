@@ -15,11 +15,11 @@
 <img src="Scaling_Plan_Ratings_Reviews.png" width=50% height=50%>
 
 ## Results of 15 second loader.io test
-- Post reviews achieved 1000 RPS with a 0% error rate and an average response time of 127 ms while sending a total of 5.6MB of data.
+- The post reviews route achieved 1000 requests per second with a 0% error rate and an average response time of 127 ms. A total of 5.6MB of review data was sent from the client requests and saved to the data base.
   - Before scaling, this route would finish the same test with an average response time of 2312 ms with a 0% error rate.
 <img src="Final Post Review Demo SDC.gif" width=50% height=50%>
 
-- Get reviews achieved 500 RPS with a 0% error rate and an average response time of 71 ms while receiving a total of 84MB of data.
+- The get reviews route achieved 500 requests per second with a 0% error rate and an average response time of 71 ms. A total of 84MB of review data was received by the client from the data base.
   - Before scaling, this route would finish the same test with an average response time of 2209 ms with a .2% timeout   error rate.
 <img src="Final Get Reviews Demo SDC.gif" width=50% height=50%>
 
