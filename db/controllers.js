@@ -29,7 +29,7 @@ const testReviewObj = {
 const getReviews = async (req, res) => {
   //let { page, count, sort, product_id } = testObj;
   let { page, count, sort, product_id } = req.query;
-
+  console.log('Getting reviews for ', product_id);
   page = page ? page : 0;
   count = count ? count : 5;
   let order = sort === 'newest' ? 'reviews.helpfulness DESC' : sort === 'helpful' ? 'reviews.date DESC' : 'reviews.helpfulness DESC, reviews.date DESC'
@@ -117,7 +117,7 @@ const postReview = async (req, res) => {
   //console.log('Body', req.body);
   //let { product_id, body, rating, recommend, name, summary, email, photos, characteristics } = testReviewObj;
   let { product_id, body, rating, recommend, name, summary, email, photos, characteristics } = req.body;
-
+  console.log('Posting review to ', product_id);
   let reviewDate = Date.now();
 
   const client = await db.getClient();
