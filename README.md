@@ -18,20 +18,20 @@
 - Because of the Artillery tests using pm2 clusters, when I deployed this project to AWS, I decided to horizontally scale using 6 free tier Ubuntu EC2 instances. Two of five end points were tested with loader.io in order to comapre pre and post scaling performance.
 
 ## Scaling Architecture
-<img src="Scaling_Plan_Ratings_Reviews.png" width=50% height=50%>
+<img src="assets/Scaling_Plan_Ratings_Reviews.png" width=50% height=50%>
 
 ## Testing Results
 #### 15 second loader.io test on post reviews endpoint
 - The post reviews route achieved 1000 requests per second with a 0% error rate and an average response time of 127 ms. A total of 5.6MB of review data was sent from the client requests and saved to the data base.
   - Before scaling, this route would finish the same test with an average response time of 2312 ms with a 0% error rate.
   - The improvement from scaling resulted in a 94.5% decrease in client wait time while maintaining a 0% error rate.
-<img src="Final Post Review Demo SDC.gif" width=50% height=50%>
+<img src="assets/Final Post Review Demo SDC.gif" width=50% height=50%>
 
 #### 15 second loader.io test on get reviews endpoint
 - The get reviews route achieved 500 requests per second with a 0% error rate and an average response time of 71 ms. A total of 84MB of review data was received by the client from the data base.
   - Before scaling, this route would finish the same test with an average response time of 2209 ms with a .2% timeout   error rate.
   - The improvement from scaling resulted in a 96.7% decrease in client wait time & while also achieving a 0% error rate from .2%.
-<img src="Final Get Reviews Demo SDC.gif" width=50% height=50%>
+<img src="assets/Final Get Reviews Demo SDC.gif" width=50% height=50%>
 
 ## Other Optimizations 
 - Used indexing to ensure data base queries were between 5-20 ms. Pre-indexing, some queries took 5000 ms.
