@@ -60,9 +60,10 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 #### Fix id sequences in table primary keys
 > psql -U sdc -d sdc_reviews -a -f fix_sequences.sql;
 
-> pg_dump -U darrien -f qa.pgsql -C questiontest
+#### Create a pgsql file that can be transferred to deployed server
 > pg_dump -U sdc -f review.pgsql -C sdc_reviews
 
+#### Transfer file
 > scp -i ~/downloads/sdc.pem qa.pgsql ubuntu@18.219.169.32:/home/ubuntu
-> scp -i ~/AWS\ Deployments/sdc_db.pem review.pgsql ubuntu@44.207.6.108:/home/ubuntu
-> scp -i ~/Desktop/AWS\ Deployments/sdc_db.pem review.pgsql ubuntu@44.207.6.108:/home/ubuntu
+
+
