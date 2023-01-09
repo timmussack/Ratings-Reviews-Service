@@ -15,11 +15,11 @@
  - Before optimization & scaling this route struggled on  100 RPS with an average response time of 1600 ms and an error rate of 4%.
 
 ## Optimizations Made
-> Used indexing to ensure data base queries were under between 5-20 ms.
-> Scaled using multiple node.js servers and a Nginx load balancer.
-> Increased max connections allowed on data base from 100 to 200, prompted by data base error.
-> Increased the number of worker connections in Nginx, prompted by Nginx error logs.
-> Enabled keep alive connections in Nginx to minimize authentication hand shakes, prompted by Nginx blog post.
+- Used indexing to ensure data base queries were under between 5-20 ms.
+- Scaled using multiple node.js servers and a Nginx load balancer.
+- Increased max connections allowed on data base from 100 to 200, prompted by data base error.
+- Increased the number of worker connections in Nginx, prompted by Nginx error logs.
+- Enabled keep alive connections in Nginx to minimize authentication hand shakes, prompted by Nginx blog post.
 
 ## Technologies
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
