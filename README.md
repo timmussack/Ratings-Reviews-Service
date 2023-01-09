@@ -25,13 +25,13 @@
 - The post reviews route achieved 1000 requests per second with a 0% error rate and an average response time of 127 ms. A total of 5.6MB of review data was sent from the client requests and saved to the data base.
   - Before scaling, this route would finish the same test with an average response time of 2312 ms with a 0% error rate.
   - The improvement from scaling resulted in a 94.5% decrease in client wait time while maintaining a 0% error rate.
-<img src="assets/Final Post Review Demo SDC.gif" width=50% height=50%>
+<img src="assets/Final Post Review Demo SDC.gif" width=60% height=60%>
 
 #### 15 second loader.io test on get reviews endpoint
 - The get reviews route achieved 500 requests per second with a 0% error rate and an average response time of 71 ms. A total of 84MB of review data was received by the client from the data base.
   - Before scaling, this route would finish the same test with an average response time of 2209 ms with a .2% timeout   error rate.
   - The improvement from scaling resulted in a 96.7% decrease in client wait time & while also achieving a 0% error rate from .2%.
-<img src="assets/Final Get Reviews Demo SDC.gif" width=50% height=50%>
+<img src="assets/Final Get Reviews Demo SDC.gif" width=75% height=75%>
 
 ## Other Optimizations 
 - Used indexing to ensure data base queries were between 5-20 ms. Pre-indexing, some queries took 5000 ms.
