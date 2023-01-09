@@ -46,7 +46,7 @@ module.exports = {
     // }
     client.release = () => {
       // clear our timeout
-      clearTimeout(timeout)
+      // clearTimeout(timeout)
       // set the methods back to their old un-monkey-patched version
       client.query = query
       client.release = release
