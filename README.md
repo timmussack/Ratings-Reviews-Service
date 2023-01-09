@@ -1,7 +1,25 @@
-# Ratings-Reviews-Service
+# Ratings & Reviews Backend Service
 
-The purpose of this project is to create a high performance backend API
-designed to provide an efficient way to manage the ratings & reviews feature of an e-commerce website.
+- The purpose of this project was to create a high performance backend API designed to provide an efficient way to manage the ratings & reviews feature of an e-commerce website.
+
+- This project was deployed to AWS, horizontally scaled using 6 free tier Ubuntu EC2 instances and 2 end points were tested with loader.io.
+
+## Scaling Architecture
+<img src="Scaling_Plan_Ratings_Reviews.png" width=50% height=50%>
+
+## Results of 15 second loader.io test
+- Post reviews achieved 1000 RPS with a 0% error rate and an average response time of 127 ms while sending a total of 5.6MB of data.
+  - Before optimization & scaling this route had an average response time of 784 ms on the same test. Once scaled Nginix optimizations had to be made to ensure enought worker connections were avaliable.
+
+- Get reviews achieved 500 RPS with a 0% error rate and an average response time of 71 ms while receiving a total of 84MB of data.
+  - Before optimization & scaling this route struggled on  100 RPS with an average response time of 1600 ms and an error rate of 4%.
+
+## Optimizations Made
+- Used indexing to ensure data base queries were between 5-20 ms.
+- Scaled with multiple node.js servers and a Nginx load balancer.
+- Increased max connections allowed on data base from 100 to 200, prompted by data base error.
+- Increased the number of worker connections in Nginx, prompted by Nginx error logs.
+- Enabled keep alive connections in Nginx to minimize authentication hand shakes, prompted by Nginx blog post.
 
 ## Technologies
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
@@ -10,7 +28,8 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Nginx](https://img.shields.io/badge/-Nginx-white?logo=nginx&logoColor=green&style=for-the-badge)
 
-## Commands for ETL (Extract, Transform & Load) process
+## Helpful Postgres & ETL Commands
+
 #### Check if postgresql server is running locally
 > brew services
 
@@ -27,15 +46,13 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 > \timing
 
 #### Opens postgres in terminal with user 'sdc',
-> psql postgres -U sdc ...local machine
-> sudo -u postgres psql ...on EC2, this is the default user after install
-> psql -U sdc sdc_reviews ...then provide password
+> psql -U 'user name' 'data base name'
 
 #### Stops postgres in terminal
 > \q
 
 #### Switch to db of choice
-> \c sdc_reviews
+> \c data 'base name'
 
 #### Show tables in db
 > \dt
@@ -46,35 +63,17 @@ designed to provide an efficient way to manage the ratings & reviews feature of 
 #### Return number of rows in a table
 > SELECT count(*) FROM 'table name';
 
-#### Run from setup_tables.sql directory to clean data base and create tables
-> psql -U sdc -d sdc_reviews -a -f setup_tables.sql
+#### Run sql file scripts in build_db folder to set up data base
+> psql -U 'user name' -d 'data base name' -a -f 'file name'.sql
 
-#### Run from load_tables.sql directory to load csv data into data base tables
-> psql -U sdc -d sdc_reviews -a -f load_tables.sql
+#### Check what index's a table has
+> SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'table name';
 
-#### Run from create_indexes.sql directory to create the needed indexes
-> psql -U sdc -d sdc_reviews -a -f create_indexes.sql
+#### If primary key sequence falls out of synce run the fix_sequences script
+> psql -U 'user name' -d 'data base' -a -f fix_sequences.sql;
 
-#### Check what index's are being used for a table
-> SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'tablename';
+#### Create pgsql file of the data base to transfer data base to cloud server
+> pg_dump -U 'user name' -f 'name the file'.pgsql -C 'data base name'
 
-#### Fix id sequences in table primary keys
-> psql -U sdc -d sdc_reviews -a -f fix_sequences.sql;
-
-<<<<<<< HEAD
-#### Create pgsql file of the data base
-> pg_dump -U sdc -f review.pgsql -C sdc_reviews
-
-#### Send the pgsql file to EC2
-> scp -i ~/Desktop/AWS\ Deployments/sdc_db.pem review.pgsql ubuntu@54.83.147.29:/home/ubuntu
-
-psql -U sdc sdc_reviews < review.pgsql
-=======
-#### Create a pgsql file that can be transferred to deployed server
-> pg_dump -U sdc -f review.pgsql -C sdc_reviews
-
-#### Transfer file
-> scp -i ~/downloads/sdc.pem qa.pgsql ubuntu@18.219.169.32:/home/ubuntu
-
-
->>>>>>> cd1e96ca05814428046fbcb2507c9f3c6f43fabb
+#### Send the pgsql file to cloud server using scp
+> scp -i ~'path to pem key' 'pem key file name'.pem 'pgsql file name'.pgsql 'location of cloud server'
