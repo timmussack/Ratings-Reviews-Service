@@ -7,7 +7,7 @@
 ## Scaling Architecture
 <img src="ScalingArchitecture.png">
 
-> Results of 15 second test
+## Results of 15 second loader.io test
 - Post reviews achieved 1000 RPS with a 0% error rate and an average response time of 127 ms while sending a total of 5.6MB of data.
 - Before optimization & scaling this route had an average response time of 784 ms on the same test.
 
