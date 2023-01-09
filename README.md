@@ -16,7 +16,7 @@
 
 ## Optimizations Made
 - Used indexing to ensure data base queries were between 5-20 ms.
-- Scaled using multiple node.js servers and a Nginx load balancer.
+- Scaled with multiple node.js servers and a Nginx load balancer.
 - Increased max connections allowed on data base from 100 to 200, prompted by data base error.
 - Increased the number of worker connections in Nginx, prompted by Nginx error logs.
 - Enabled keep alive connections in Nginx to minimize authentication hand shakes, prompted by Nginx blog post.
