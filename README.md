@@ -44,7 +44,7 @@
 <img src="assets/Final Get Reviews Demo SDC.gif" width=75% height=75%>
 
 ## Other Optimizations 
-- Regularly serached table columns were indexed using BTree to ensure database queries were between 1-35 ms. Before indexing, some queries took 5000 ms.
+- Regularly searched table columns were indexed using BTree to ensure database queries were between 1-35 ms. Before indexing, some queries took 5000 ms.
 - Max connections allowed on the Postgres database was increased from 100 to 200. This change was prompted by data base errors encountered during loader.io testing.
 - The number of worker connections in Nginx was increased from 768 to 4096. This change was prompted by Nginx error logs encountered during loader.io testing. The number of files accessible to worker connections was also increased to 30000.
 - Keep alive connections between Nginx and backend servers were also enabled and configured. This minimizes time needed to make repeated authentication hand shakes. This optimization was prompted by Nginx blog post. In a production environment this decision needs careful consideration as it can make your server vulnerable to desynchronization attacks.
@@ -72,10 +72,10 @@
 #### Stops postgres in terminal
 > \q
 
-#### Switch to db of choice
-> \c data 'basename'
+#### Switch to database of choice
+> \c database 'db_name'
 
-#### Show tables in db
+#### Show tables in database
 > \dt
 
 #### Describe a table with extra information
@@ -85,7 +85,7 @@
 > SELECT count(*) FROM 'table name';
 
 #### Run sql file scripts in build_db folder to set up data base
-> psql -U 'username' -d 'data basename' -a -f 'file name'.sql
+> psql -U 'username' -d 'database name' -a -f 'file name'.sql
 
 #### Check what index's a table has
 > SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'table name';
@@ -93,7 +93,7 @@
 #### If primary key sequence falls out of synce run the fix_sequences script
 > psql -U 'username' -d 'database' -a -f fix_sequences.sql;
 
-#### Create pgsql file of the data base to transfer data base to cloud server
+#### Create pgsql file of the database to transfer database to cloud server
 > pg_dump -U 'username' -f 'name the file'.pgsql -C 'database name'
 
 #### Send the pgsql file to cloud server using scp
