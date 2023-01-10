@@ -20,27 +20,27 @@
 ## Cloud Architecture Before Scaling
 <img src="assets/No_Scaling_Plan_Ratings_Reviews.png" width=60% height=60%>
 
-## Scaled Architecture
+## Cloud Architecture After Scaling
 <img src="assets/Scaling_Plan_Ratings_Reviews.png" width=60% height=60%>
 
-## Testing Results
-#### 15 second loader.io test on post reviews endpoint
+## Test Results
+#### 15 second loader.io test at 1000 RPS on post reviews endpoint
 - The post reviews route achieved 1000 requests per second with a 0% error rate and an average response time of 127 ms. A total of 5.6MB of review data was sent from the client requests and saved to the data base.
   - Before scaling, this route would finish the same test with an average response time of 2312 ms with a 0% error rate.
   - The improvement from scaling resulted in a 94.5% decrease in client wait time while maintaining a 0% error rate.
 <img src="assets/Final Post Review Demo SDC.gif" width=75% height=75%>
 
-#### 15 second loader.io test on get reviews endpoint
+#### 15 second loader.io test at 500 RPS on get reviews endpoint
 - The get reviews route achieved 500 requests per second with a 0% error rate and an average response time of 71 ms. A total of 84MB of review data was received by the client from the data base.
   - Before scaling, this route would finish the same test with an average response time of 2209 ms with a .2% timeout   error rate.
-  - The improvement from scaling resulted in a 96.7% decrease in client wait time & while also achieving a 0% error rate from .2%.
+  - The improvement from scaling resulted in a 96.7% decrease in client wait time while also achieving a 0% error rate from .2%.
 <img src="assets/Final Get Reviews Demo SDC.gif" width=75% height=75%>
 
 ## Other Optimizations 
-- Used indexing to ensure data base queries were between 5-20 ms. Pre-indexing, some queries took 5000 ms.
-- Increased max connections allowed on Postgres db from 100 to 200. This change was prompted by data base error during load testing.
-- Increased the number of worker connections in Nginx. This change was prompted by Nginx error logs during load testing.
-- Enabled and configured keep alive connections between Nginx and backend servers to minimize authentication hand shakes, this change was prompted by Nginx blog post.
+- Regularly serached table columns were indexed using BTree to ensure database queries were between 1-35 ms. Before indexing, some queries took 5000 ms.
+- Max connections allowed on the Postgres database was increased from 100 to 200. This change was prompted by data base errors encountered during loader.io testing.
+- The number of worker connections in Nginx was increased from 768 to 4096. This change was prompted by Nginx error logs encountered during loader.io testing. The number of files accessible to worker connections was also increased to 30000.
+- Keep alive connections between Nginx and backend servers were also enabled and configured. This minimizes time needed to make repeated authentication hand shakes. This optimization was prompted by Nginx blog post. In a production environment this decision needs careful consideration as it can make your server vulnerable to desynchronization attacks.
 
 ## Helpful Postgres & ETL Commands
 
@@ -60,13 +60,13 @@
 > \timing
 
 #### Opens postgres in terminal with user 'sdc',
-> psql -U 'user name' 'data base name'
+> psql -U 'user name' 'database name'
 
 #### Stops postgres in terminal
 > \q
 
 #### Switch to db of choice
-> \c data 'base name'
+> \c data 'basename'
 
 #### Show tables in db
 > \dt
@@ -78,16 +78,16 @@
 > SELECT count(*) FROM 'table name';
 
 #### Run sql file scripts in build_db folder to set up data base
-> psql -U 'user name' -d 'data base name' -a -f 'file name'.sql
+> psql -U 'username' -d 'data basename' -a -f 'file name'.sql
 
 #### Check what index's a table has
 > SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'table name';
 
 #### If primary key sequence falls out of synce run the fix_sequences script
-> psql -U 'user name' -d 'data base' -a -f fix_sequences.sql;
+> psql -U 'username' -d 'database' -a -f fix_sequences.sql;
 
 #### Create pgsql file of the data base to transfer data base to cloud server
-> pg_dump -U 'user name' -f 'name the file'.pgsql -C 'data base name'
+> pg_dump -U 'username' -f 'name the file'.pgsql -C 'database name'
 
 #### Send the pgsql file to cloud server using scp
 > scp -i ~'path to pem key' 'pem key file name'.pem 'pgsql file name'.pgsql 'location of cloud server'
