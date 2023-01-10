@@ -2,9 +2,9 @@
 
 - A high performance back-end service for a ratings & reviews feature of an e-commerce website.
 
-## Contributor<br />
+## Software Engineer<br />
 <a href="https://github.com/SDCBlueWale/Ratings-Reviews-Service/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=SDCBlueWale/Ratings-Reviews-Service" />
+  <img src="https://contrib.rocks/image?repo=SDCBlueWhale/Ratings-Reviews-Service" />
 </a>
 
    •[Tim Mussack](https://github.com/timmussack) - Ratings & Reviews<br />
