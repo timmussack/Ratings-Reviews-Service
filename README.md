@@ -1,6 +1,6 @@
 # Ratings & Reviews Backend Service
 
-- The purpose of this project was to create a high performance backend API designed to provide an efficient way to manage the ratings & reviews feature of an e-commerce website.
+- A high performance back-end service for a ratings & reviews feature of an e-commerce website.
 
 ## Tech Stack
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
@@ -11,13 +11,13 @@
 
 ## Progress Narrative
 
-- Four csv files were provided at the beginning of the project. The relational structure of the data led me to choose Postgres as a Data Base Management system. I used sql script files help complete the ETL process programatically. I then wrote and tested sql queries to create, read and update on the data base. After indexing appropriate columns, queries ran around 5-35 ms. The slowest queries are SELECT reviews statements with over 50 records for the given product id.
+- Four csv files were provided to me at the beginning of the project. The relational structure of the data led me to choose -Postgres as a database management system. I wrote sql script files to build the database & complete the ETL process programatically. I then wrote and tested sql queries to create, read and update records in the data base. After indexing appropriate columns, queries took around 5-35 ms to run. The slowest queries are SELECT reviews statements with approximately 50 or more records for the given product id.
 
-- After the data base and queries were ready, I created a node server using express and pg (postgres-node). Controller functions were made to handle data base CRUD requests. I then used Artillery load test locally. After running Artillery tests while useing pm2 to create 2 node.js/express clusters I decided that node and not the data base was the bottle neck.
+- After the data base and queries were complete, I started a node server using express, wrotes routes and handled database connections with pg (postgres-node). Controller functions were made to handle data base CRUD logic. I then used Artillery to test they system locally. In order to find the system bottle neck I ran Artillery tests using one node server & then tested again with two node clusters serving requests to each server round robin. I utilized pm2, a node.js process manager to facilitate this. Those tests convinced me that node.js was the systems bottle neck.
 
-- Because of the Artillery tests using pm2 clusters, when I deployed this project to AWS, I decided to horizontally scale using 6 free tier Ubuntu EC2 instances. The main read and write end points were tested with loader.io in order to comapre pre and post scaling performance.
+- I initially deployed the project with no scaling and ran some tests and then implemented horizontal scaling using 6 free tier Ubuntu EC2 instances. The two main read and write end points were tested with loader.io in order to compare pre and post scaling performance. Below you can see a diagram of both scenarios.
 
-## Not Scaled Architecture
+## Cloud Architecture Before Scaling
 <img src="assets/No_Scaling_Plan_Ratings_Reviews.png" width=60% height=60%>
 
 ## Scaled Architecture
