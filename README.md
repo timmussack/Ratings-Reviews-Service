@@ -9,7 +9,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Nginx](https://img.shields.io/badge/-Nginx-white?logo=nginx&logoColor=green&style=for-the-badge)
 
-## 
+## Progress Narrative
 
 - Four csv files were provided at the beginning of the project. The relational structure of the data led me to choose Postgres as a Data Base Management system. I used sql script files help complete the ETL process programatically. I then wrote and tested sql queries to create, read and update on the data base. After indexing appropriate columns, queries ran around 5-35 ms. The slowest queries are SELECT reviews statements with over 50 records for the given product id.
 
@@ -18,7 +18,7 @@
 - Because of the Artillery tests using pm2 clusters, when I deployed this project to AWS, I decided to horizontally scale using 6 free tier Ubuntu EC2 instances. Two of five end points were tested with loader.io in order to comapre pre and post scaling performance.
 
 ## Scaling Architecture
-<img src="assets/Scaling_Plan_Ratings_Reviews.png" width=50% height=50%>
+<img src="assets/Scaling_Plan_Ratings_Reviews.png" width=75% height=75%>
 
 ## Testing Results
 #### 15 second loader.io test on post reviews endpoint
