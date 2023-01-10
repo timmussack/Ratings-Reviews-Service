@@ -2,12 +2,12 @@
 
 - A high performance back-end service for a ratings & reviews feature of an e-commerce website.
 
-## Contributors<br />
-<a href="https://github.com/SDCBlueWale/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=RFE2210-Amaryllis/Project-Atelier" />
+## Contributor<br />
+<a href="https://github.com/SDCBlueWale/Ratings-Reviews-Service/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=SDCBlueWale/Ratings-Reviews-Service" />
 </a>
 
-   •[Tim Mussack](https://github.com/timmussack) - Questions and Answers<br />
+   •[Tim Mussack](https://github.com/timmussack) - Ratings & Reviews<br />
 
 ## Tech Stack
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
