@@ -15,7 +15,7 @@
 
 - After the data base and queries were ready, I created a node server using express and pg (postgres-node). Controller functions were made to handle data base CRUD requests. I then used Artillery load test locally. After running Artillery tests while useing pm2 to create 2 node.js/express clusters I decided that node and not the data base was the bottle neck.
 
-- Because of the Artillery tests using pm2 clusters, when I deployed this project to AWS, I decided to horizontally scale using 6 free tier Ubuntu EC2 instances. Two of five end points were tested with loader.io in order to comapre pre and post scaling performance.
+- Because of the Artillery tests using pm2 clusters, when I deployed this project to AWS, I decided to horizontally scale using 6 free tier Ubuntu EC2 instances. The main read and write end points were tested with loader.io in order to comapre pre and post scaling performance.
 
 ## Scaling Architecture
 <img src="assets/Scaling_Plan_Ratings_Reviews.png" width=75% height=75%>
