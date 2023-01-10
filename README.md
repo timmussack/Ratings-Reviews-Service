@@ -18,10 +18,10 @@
 - Because of the Artillery tests using pm2 clusters, when I deployed this project to AWS, I decided to horizontally scale using 6 free tier Ubuntu EC2 instances. The main read and write end points were tested with loader.io in order to comapre pre and post scaling performance.
 
 ## Not Scaled Architecture
-<img src="assets/No_Scaling_Plan_Ratings_Reviews.png" width=75% height=75%>
+<img src="assets/No_Scaling_Plan_Ratings_Reviews.png" width=60% height=60%>
 
 ## Scaled Architecture
-<img src="assets/Scaling_Plan_Ratings_Reviews.png" width=75% height=75%>
+<img src="assets/Scaling_Plan_Ratings_Reviews.png" width=60% height=60%>
 
 ## Testing Results
 #### 15 second loader.io test on post reviews endpoint
