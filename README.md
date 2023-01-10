@@ -45,7 +45,7 @@
 
 ## Other Optimizations 
 - Regularly searched table columns were indexed using BTree to ensure database queries were between 1-35 ms. Before indexing, some queries took 5000 ms.
-- Max connections allowed on the Postgres database was increased from 100 to 200. This change was prompted by data base errors encountered during loader.io testing.
+- Max connections allowed on the Postgres database were increased from 100 to 200. This change was prompted by data base errors encountered during loader.io testing.
 - The number of worker connections in Nginx was increased from 768 to 4096. This change was prompted by Nginx error logs encountered during loader.io testing. The number of files accessible to worker connections was also increased to 30000.
 - Keep alive connections between Nginx and backend servers were also enabled and configured. This minimizes time needed to make repeated authentication hand shakes. This optimization was prompted by Nginx blog post. In a production environment this decision needs careful consideration as it can make your server vulnerable to desynchronization attacks.
 
