@@ -2,6 +2,13 @@
 
 - A high performance back-end service for a ratings & reviews feature of an e-commerce website.
 
+## Contributors<br />
+<a href="https://github.com/SDCBlueWale/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=RFE2210-Amaryllis/Project-Atelier" />
+</a>
+
+   •[Tim Mussack](https://github.com/timmussack) - Questions and Answers<br />
+
 ## Tech Stack
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Node](https://img.shields.io/badge/-Node-9ACD32?logo=node.js&logoColor=white&style=for-the-badge)
