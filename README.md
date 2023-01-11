@@ -1,6 +1,6 @@
-# Ratings & Reviews Backend Service
+# Project 1000RPS
 
-- A high performance back-end service for a ratings & reviews feature of an e-commerce website.
+- A high performance back-end service for a ratings & reviews feature of an e-commerce website. The only constraint is that the service must be deployed on free tier AWS EC2 micro instances. The goal was make a backend that could handle 1000 http requests per second.
 
 ## Software Engineer<br />
 <a href="https://github.com/SDCBlueWale/Ratings-Reviews-Service/graphs/contributors">
